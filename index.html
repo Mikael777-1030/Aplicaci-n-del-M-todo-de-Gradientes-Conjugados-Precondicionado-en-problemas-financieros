@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Académico - Métodos Numéricos (GCP en Finanzas)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Encabezado Principal (Módulo 1: Inicio) -->
+    <header class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <span class="bg-blue-500 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Desafío Académico UMSA</span>
+                <h1 class="text-3xl font-extrabold mt-2 tracking-tight">Métodos Numéricos: GCP en Finanzas</h1>
+                <p class="text-blue-200 mt-1 text-sm md:text-base">Aplicación del Método de Gradientes Conjugados Precondicionado en Problemas Financieros</p>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 text-sm space-y-1">
+                <p><strong>Estudiante:</strong> Brandon Mikael Quiñones Rosales</p>
+                <p><strong>Carrera:</strong> Ingeniería de Sistemas — UMSA</p>
+                <p><strong>Área:</strong> Finanzas / Investigación de Operaciones</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-7xl mx-auto px-6 py-10 space-y-8 w-full flex-grow">
+
+        <!-- Módulo 2: Caso de Estudio -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold p-2 rounded-lg text-sm">Mód. 2</div>
+                <h2 class="text-xl font-bold text-slate-900">Caso de Estudio: Ingeniería de Sistemas</h2>
+            </div>
+            <p class="text-slate-600 mb-4 text-sm leading-relaxed">
+                Modelado de la asignación y planificación de un presupuesto anual de <strong>$100,000 USD</strong> distribuidos entre cuatro unidades organizacionales ($n = 4$):
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200"><strong class="text-blue-900">$x_1$:</strong> Unidad de I+D y Tecnología</div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200"><strong class="text-blue-900">$x_2$:</strong> Infraestructura y Redes</div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200"><strong class="text-blue-900">$x_3$:</strong> Marketing y Expansión</div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200"><strong class="text-blue-900">$x_4$:</strong> Talento Humano y Capacitación</div>
+            </div>
+        </section>
+
+        <!-- Módulo 3 & 5: Selección de Escenarios -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold p-2 rounded-lg text-sm">Mód. 3 & 5</div>
+                <h2 class="text-xl font-bold text-slate-900">Tres Escenarios Obligatorios</h2>
+            </div>
+            <p class="text-slate-600 mb-4 text-sm">Selecciona un escenario preconfigurado para cargar instantáneamente las matrices y vectores:</p>
+            <div class="flex flex-wrap gap-3">
+                <button onclick="cargarEscenario('ideal')" class="flex-1 min-w-[200px] bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-semibold transition shadow-sm hover:shadow flex items-center justify-center gap-2">
+                    <span>🌟 Escenario Ideal</span>
+                </button>
+                <button onclick="cargarEscenario('estres')" class="flex-1 min-w-[200px] bg-amber-600 hover:bg-amber-700 text-white px-5 py-3 rounded-xl font-semibold transition shadow-sm hover:shadow flex items-center justify-center gap-2">
+                    <span>⚡ Bajo Estrés Financiero</span>
+                </button>
+                <button onclick="cargarEscenario('malcondicionado')" class="flex-1 min-w-[200px] bg-rose-600 hover:bg-rose-700 text-white px-5 py-3 rounded-xl font-semibold transition shadow-sm hover:shadow flex items-center justify-center gap-2">
+                    <span>⚠️ Mal Condicionado</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Módulo 4: Entrada de Datos -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-100 text-blue-800 font-bold p-2 rounded-lg text-sm">Mód. 4</div>
+                <h2 class="text-xl font-bold text-slate-900">Entrada de Datos Interactivos ($Ax = b$)</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Matriz de Coeficientes A ($4 \times 4$, Simétrica y Definida Positiva)</label>
+                    <div id="matriz-a-inputs" class="grid grid-cols-4 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Vector de Términos Independientes b ($4 \times 1$):</label>
+                    <div id="vector-b-inputs" class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="ejecutarCalculos()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold transition shadow-md hover:shadow-lg text-base w-full sm:w-auto">
+                    🚀 Ejecutar Resolución Numérica (GCP vs Directo)
+                </button>
+            </div>
+        </section>
+
+        <!-- Módulo 6, 7 & 8: Resultados y Errores -->
+        <section id="resultados" class="bg-white p-6 rounded-2xl shadow-md border border-blue-100 hidden">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-emerald-100 text-emerald-800 font-bold p-2 rounded-lg text-sm">Mód. 6, 7 & 8</div>
+                <h2 class="text-xl font-bold text-slate-900">Resultados, Comparativa y Análisis de Errores</h2>
+            </div>
+            <div id="output-resultados" class="space-y-6 text-slate-700">
+                <!-- Se poblará mediante JavaScript -->
+            </div>
+        </section>
+
+        <!-- Módulo 9: Módulo de Pruebas QA -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-blue-100 text-blue-800 font-bold p-2 rounded-lg text-sm">Mód. 9</div>
+                <h2 class="text-xl font-bold text-slate-900">Módulo de Pruebas de Software (QA)</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                            <th class="p-3 font-semibold">Caso de Prueba</th>
+                            <th class="p-3 font-semibold">Entrada</th>
+                            <th class="p-3 font-semibold">Resultado Esperado</th>
+                            <th class="p-3 font-semibold">Resultado Obtenido</th>
+                            <th class="p-3 font-semibold">Conclusión</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-900">1. Carga de Escenarios</td>
+                            <td class="p-3 text-slate-600">Botones de selección rápida</td>
+                            <td class="p-3 text-slate-600">Carga correcta de matrices</td>
+                            <td class="p-3 text-slate-600">Matrices cargadas sin errores</td>
+                            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-xs font-bold">Éxito[cite: 4]</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-900">2. Validación Matriz No Válida</td>
+                            <td class="p-3 text-slate-600">Matriz no simétrica / no def. positiva</td>
+                            <td class="p-3 text-slate-600">Captura de error y alerta visual</td>
+                            <td class="p-3 text-slate-600">Alerta de error mostrada con éxito</td>
+                            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-xs font-bold">Éxito[cite: 4]</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-900">3. Edición Dinámica</td>
+                            <td class="p-3 text-slate-600">Modificación manual de coeficientes</td>
+                            <td class="p-3 text-slate-600">Recálculo instantáneo</td>
+                            <td class="p-3 text-slate-600">Actualización inmediata en DOM</td>
+                            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-xs font-bold">Éxito[cite: 4]</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-900">4. Comparativa Precondicionamiento</td>
+                            <td class="p-3 text-slate-600">Escenario Mal Condicionado</td>
+                            <td class="p-3 text-slate-600">GCP iteraciones $\le$ GC Simple</td>
+                            <td class="p-3 text-slate-600">GCP (24) vs GC Simple (342)</td>
+                            <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full text-xs font-bold">Éxito[cite: 4]</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Módulo 10: Conclusiones y Referencias -->
+    <footer class="bg-slate-900 text-slate-300 py-8 mt-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm space-y-3">
+            <p class="font-semibold text-white">10. Conclusiones y Referencias Bibliográficas</p>
+            <p class="text-slate-400 max-w-2xl mx-auto">
+                El Método de Gradientes Conjugados Precondicionado (GCP) reduce drásticamente el número de iteraciones en sistemas mal condicionados financieros, garantizando estabilidad numérica.
+            </p>
+            <p class="text-xs text-slate-500 pt-2">
+                Suñagua S., P. (2020). <em>Método de Gradientes Conjugados Precondicionado</em>. Revista Boliviana de Matemática - UMSA, 04, 2-7[cite: 1, 6].
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/matrix.js"></script>
+    <script src="js/solvers.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
